@@ -4,7 +4,7 @@ Pulls the welcome-bonus terms of 3 online casinos from one public source,
 turns the free-text terms into structured fields with an LLM, and publishes
 them as a mobile-friendly table.
 
-- **Live page:** _add your GitHub Pages URL here_
+- **Live page:** https://pulemojatau.github.io/casino-bonus-scraper/
 - **Data:** [`data/casinos.json`](data/casinos.json)
 - **Written part (production plan):** [`docs/PRODUCTION.md`](docs/PRODUCTION.md)
 - **AI notes:** [`docs/AI.md`](docs/AI.md)
@@ -14,7 +14,7 @@ them as a mobile-friendly table.
 Requires Node.js 22+ and an Anthropic API key.
 
 ```bash
-git clone <this repo> && cd casino-bonus-scraper
+git clone https://github.com/pulemojatau/casino-bonus-scraper.git && cd casino-bonus-scraper
 npm install
 cp .env.example .env          # then put your ANTHROPIC_API_KEY in .env
 
