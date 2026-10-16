@@ -1,0 +1,23 @@
+{
+  "name": "casino-bonus-scraper",
+  "version": "1.0.0",
+  "description": "Scrapes welcome-bonus terms for a few online casinos from one public source, structures them with an LLM, and publishes a mobile-friendly table.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20.18.1"
+  },
+  "scripts": {
+    "scrape": "node src/cli/scrape.js",
+    "build": "node src/cli/build-site.js",
+    "start": "npm run scrape && npm run build",
+    "check": "node src/cli/check.js",
+    "test": "node --test"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
+    "cheerio": "^1.2.0",
+    "robots-parser": "^3.0.1"
+  }
+}
