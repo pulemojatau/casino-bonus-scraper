@@ -18,6 +18,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      has_data: ${{ steps.data.outputs.exists }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -26,14 +28,27 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - run: npm run build
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v4
+      - name: Check for scraped data
+        id: data
+        run: |
+          if [ -f data/casinos.json ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No data/casinos.json yet. Run 'npm run scrape' locally and push it; skipping deploy."
+          fi
+      - if: steps.data.outputs.exists == 'true'
+        run: npm run build
+      - if: steps.data.outputs.exists == 'true'
+        uses: actions/configure-pages@v5
+      - if: steps.data.outputs.exists == 'true'
+        uses: actions/upload-pages-artifact@v4
         with:
           path: dist
 
   deploy:
     needs: build
+    if: needs.build.outputs.has_data == 'true'
     runs-on: ubuntu-latest
     permissions:
       pages: write
