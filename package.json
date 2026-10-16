@@ -14,7 +14,6 @@
     "check": "node src/cli/check.js",
     "test": "node --test \"test/**/*.test.js\""
   },
-  "license": "MIT",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.135.0",
     "cheerio": "^1.2.0",
