@@ -1,0 +1,23 @@
+{
+  "source": {
+    "name": "Gambling.com (Ireland)",
+    "homepage": "https://www.gambling.com/ie/online-casinos/reviews"
+  },
+  "userAgent": "CasinoBonusScraper/1.0 (screening task)",
+  "requestDelayMs": 3000,
+  "timeoutMs": 20000,
+  "casinos": [
+    {
+      "name": "Dream Vegas",
+      "url": "https://www.gambling.com/ie/online-casinos/reviews/dream-vegas"
+    },
+    {
+      "name": "Casumo",
+      "url": "https://www.gambling.com/ie/online-casinos/reviews/casumo"
+    },
+    {
+      "name": "LeoVegas",
+      "url": "https://www.gambling.com/ie/online-casinos/reviews/leovegas"
+    }
+  ]
+}

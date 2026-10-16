@@ -5,14 +5,14 @@
   "type": "module",
   "private": true,
   "engines": {
-    "node": ">=20.18.1"
+    "node": ">=22"
   },
   "scripts": {
     "scrape": "node src/cli/scrape.js",
     "build": "node src/cli/build-site.js",
     "start": "npm run scrape && npm run build",
     "check": "node src/cli/check.js",
-    "test": "node --test"
+    "test": "node --test \"test/**/*.test.js\""
   },
   "license": "MIT",
   "dependencies": {
