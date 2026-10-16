@@ -79,6 +79,27 @@ test('scrapes allowed pages, skips robots-disallowed ones and records blocks', a
   assert.doesNotMatch(extractor.calls[0].text, /<script|tracking-should-not-appear/);
 });
 
+test('a redirect into a robots-disallowed path is not used', async () => {
+  const target = `${ORIGIN}/members/landing`;
+  const fetchImpl = async (url) => {
+    if (String(url).endsWith('/robots.txt')) {
+      return new Response('User-agent: *\nDisallow: /members/\n');
+    }
+    // Simulate fetch having followed a redirect.
+    const res = new Response(html);
+    Object.defineProperty(res, 'url', { value: target });
+    return res;
+  };
+  const result = await runScrape({
+    config: { ...config, casinos: [config.casinos[0]] },
+    extractor,
+    fetchImpl,
+    sleep: noSleep,
+  });
+  assert.equal(result.casinos[0].status, 'error');
+  assert.match(result.casinos[0].error, /Redirected to .*\/members\/landing, disallowed by robots\.txt/);
+});
+
 test('waits between page requests, honouring the configured delay', async () => {
   const waits = [];
   await runScrape({

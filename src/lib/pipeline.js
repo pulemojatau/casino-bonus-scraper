@@ -29,7 +29,12 @@ export async function runScrape({
       if (!rule.allowed) throw new Error(`Skipped: ${rule.reason}`);
       if (index > 0) await sleep(Math.max(requestDelayMs, rule.crawlDelayMs));
 
-      const { html } = await fetchPage(casino.url, { userAgent, timeoutMs, fetchImpl, sleep });
+      const { html, finalUrl } = await fetchPage(casino.url, { userAgent, timeoutMs, fetchImpl, sleep });
+      if (finalUrl !== casino.url) {
+        // A redirect (e.g. geo-targeting) can land somewhere robots.txt disallows.
+        const redirected = await robots.check(finalUrl);
+        if (!redirected.allowed) throw new Error(`Redirected to ${finalUrl}, ${redirected.reason}`);
+      }
       const { title, text } = extractBonusText(html);
       if (!text) throw new Error('No bonus-related text found on the page');
 
